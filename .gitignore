@@ -9,3 +9,7 @@ target/
 
 # VM crash logs
 hs_err_pid*
+
+.project
+.classpath
+.settings
