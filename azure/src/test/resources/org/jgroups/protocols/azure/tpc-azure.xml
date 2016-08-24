@@ -29,7 +29,7 @@
          use_send_queues="true"
          sock_conn_timeout="300"
 
-         timer_type="new3"
+         timer_type="new"
          timer.min_threads="4"
          timer.max_threads="10"
          timer.keep_alive_time="3000"
@@ -53,8 +53,7 @@
     <azure.AZURE_PING
             storage_account_name="${azure.account_name}"
             storage_access_key="${azure.access_key}"
-            container="${azure.container:ping}"
-            remove_all_files_on_view_change="true"/>
+            container="${azure.container:ping}"/>
     <MERGE3 min_interval="10000"
             max_interval="30000"/>
     <FD_SOCK/>
@@ -63,7 +62,7 @@
     <BARRIER/>
     <pbcast.NAKACK2 use_mcast_xmit="false"
                     discard_delivered_msgs="true"/>
-    <UNICAST3/>
+    <UNICAST2/>
     <pbcast.STABLE stability_delay="1000" desired_avg_gossip="50000"
                    max_bytes="4M"/>
     <pbcast.GMS print_local_addr="true" join_timeout="2000"
