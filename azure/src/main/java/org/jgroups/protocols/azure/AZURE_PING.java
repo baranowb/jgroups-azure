@@ -80,11 +80,11 @@ public class AZURE_PING extends FILE_PING {
         this.validateConfiguration();
 
         try {
-            StorageCredentials credentials = new StorageCredentialsAccountAndKey(storage_account_name, storage_access_key);
-            CloudStorageAccount storageAccount = new CloudStorageAccount(credentials, use_https);
-            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+            final StorageCredentials credentials = new StorageCredentialsAccountAndKey(storage_account_name, storage_access_key);
+            final CloudStorageAccount storageAccount = new CloudStorageAccount(credentials, use_https);
+            final CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
             containerReference = blobClient.getContainerReference(container);
-            boolean created = containerReference.createIfNotExists();
+            final boolean created = containerReference.createIfNotExists();
 
             if (created) {
             	if (log.isInfoEnabled())
@@ -128,19 +128,19 @@ public class AZURE_PING extends FILE_PING {
         	return new ArrayList<PingData>();
         }
 
-        String prefix = sanitize(clustername);
+        final String prefix = sanitize(clustername);
 
-        Iterable<ListBlobItem> listBlobItems = this.containerReference.listBlobs(prefix);
+        final Iterable<ListBlobItem> listBlobItems = this.containerReference.listBlobs(prefix);
         final List<PingData> retval = new ArrayList<PingData>();
         for (ListBlobItem blobItem : listBlobItems) {
             try {
                 // If the item is a blob and not a virtual directory.
                 // n.b. what an ugly API this is
                 if (blobItem instanceof CloudBlob) {
-                    CloudBlob blob = (CloudBlob) blobItem;
-                    ByteArrayOutputStream os = new ByteArrayOutputStream(STREAM_BUFFER_SIZE);
+                	final CloudBlob blob = (CloudBlob) blobItem;
+                	final ByteArrayOutputStream os = new ByteArrayOutputStream(STREAM_BUFFER_SIZE);
                     blob.download(os);
-                    byte[] pingBytes = os.toByteArray();
+                    final byte[] pingBytes = os.toByteArray();
                     final PingData pd = parsePingData(pingBytes);
                     if (pd == null) {
                     	((CloudBlob) blobItem).deleteIfExists();
@@ -206,11 +206,11 @@ public class AZURE_PING extends FILE_PING {
             return;
         }
 
-        String filename = addressToFilename(clustername, addr);
+        final String filename = addressToFilename(clustername, addr);
 
         try {
-            CloudBlockBlob blob = containerReference.getBlockBlobReference(filename);
-            boolean deleted = blob.deleteIfExists();
+        	final CloudBlockBlob blob = containerReference.getBlockBlobReference(filename);
+        	final boolean deleted = blob.deleteIfExists();
 
             if (deleted) {
             	if (log.isDebugEnabled())
